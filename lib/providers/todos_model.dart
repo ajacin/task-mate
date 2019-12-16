@@ -2,6 +2,19 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:providerarray/models/task.dart';
 import 'package:providerarray/database/database_helpers.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+void showToast(String message) {
+    print(' showtostattt');
+      Fluttertoast.showToast(
+          msg: message,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 1,
+          // backgroundColor: Theme.of(co),
+          textColor: Colors.white
+      );
+    }
 
 class TodosModel extends ChangeNotifier{
   final List<Task> _tasks =[
@@ -38,12 +51,14 @@ class TodosModel extends ChangeNotifier{
   void deleteTodo(Task task) {
     _tasks.remove(task);
     _deleteNote(task.id);
+    showToast("Task Deleted");
     notifyListeners();
   }
 
   _save(task) async {
         DatabaseHelper helper = DatabaseHelper.instance;
         int id = await helper.insert(task);
+        showToast("Task Created");
         print('inserted row: $id');
       }
 
@@ -85,7 +100,8 @@ class TodosModel extends ChangeNotifier{
         //int rowId = 1;
         int updateStatus =await helper.updateNote(task);
         if(updateStatus==1){
-          print('updated');
+          print('Toggled');
+          showToast('Status of the task updated');
         }
         
       }

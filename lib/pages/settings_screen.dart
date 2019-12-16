@@ -78,34 +78,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ],
                   ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //   children: <Widget>[
-                  //     RaisedButton(
-                  //       color: Theme.of(context).primaryColor,
-                  //       shape: new RoundedRectangleBorder(
-                  //           borderRadius: new BorderRadius.circular(18.0),
-                  //           side: BorderSide(
-                  //               color: Theme.of(context).primaryColor)),
-                  //       child: Row(
-                  //         mainAxisAlignment: MainAxisAlignment.start,
-                  //         children: <Widget>[Icon(Icons.add), Text("Create")],
-                  //       ),
-                  //       onPressed: onAdd,
-                  //     ),
-                  //     RaisedButton(
-                  //       shape: new RoundedRectangleBorder(
-                  //           borderRadius: new BorderRadius.circular(18.0),
-                  //           side: BorderSide(
-                  //               color: Theme.of(context).primaryColor)),
-                  //       child: Row(
-                  //         mainAxisAlignment: MainAxisAlignment.start,
-                  //         children: <Widget>[Icon(Icons.cancel), Text("Cancel")],
-                  //       ),
-                  //       onPressed: () => Navigator.pop(context),
-                  //     ),
-                  //   ],
-                  // )
                 ],
               ),
             ),
