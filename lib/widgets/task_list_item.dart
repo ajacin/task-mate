@@ -46,7 +46,9 @@ Future<ConfirmAction> _asyncConfirmDialog(BuildContext context) async {
   TaskListItem({@required this.task});
   @override
   Widget build(BuildContext context) {
-    return ListTile(
+    return Card(
+      elevation: 10.0,
+      child: ListTile(
       leading: Switch(
         value: task.completed==0?false:true,
         onChanged: (bool checked) =>
@@ -70,6 +72,7 @@ Future<ConfirmAction> _asyncConfirmDialog(BuildContext context) async {
                 }
               },
       ),
+    ),
     );
   }
 }
