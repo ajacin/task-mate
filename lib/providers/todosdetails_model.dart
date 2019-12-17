@@ -32,7 +32,7 @@ class TodosDetailsModel extends ChangeNotifier{
 
   void addTaskDetail(TaskDetails taskdetails){
     _taskdetails.add(taskdetails);
-    _save(taskdetails);
+    // _save(taskdetails);
     notifyListeners();
   }
 
@@ -56,12 +56,12 @@ class TodosDetailsModel extends ChangeNotifier{
   //   notifyListeners();
   // }
 
-  _save(taskdetails) async {
-        DatabaseHelper helper = DatabaseHelper.instance;
-        int id = await helper.insertTaskDetail(taskdetails);
-        showToast("TaskDetails Created");
-        print('inserted row: $id');
-      }
+  // _save(taskdetails) async {
+  //       DatabaseHelper helper = DatabaseHelper.instance;
+  //       int id = await helper.insertTaskDetail(taskdetails);
+  //       showToast("TaskDetails Created");
+  //       print('inserted row: $id');
+  //     }
 
   // _read(int rowId) async {
   //       DatabaseHelper helper = DatabaseHelper.instance;

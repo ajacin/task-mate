@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:providerarray/pages/view_task_screen.dart';
 import 'package:providerarray/providers/todos_model.dart';
 import 'package:providerarray/models/task.dart';
 import 'package:date_format/date_format.dart';
@@ -72,6 +73,14 @@ Future<ConfirmAction> _asyncConfirmDialog(BuildContext context) async {
                 }
               },
       ),
+      onTap: (){
+        Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ViewTaskScreen(),
+                ),
+              );
+      },
     ),
     );
   }

@@ -46,7 +46,7 @@ class DatabaseHelper {
                 $columnId INTEGER PRIMARY KEY,
                 $columntitle TEXT NOT NULL,
                 $columnCompleted INTEGER NOT NULL,
-                $columnDate INTEGER NOT NULL
+                $columnDate INTEGER NOT NULL,
                 $columnType TEXT NOT NULL
               )
               ''');
@@ -54,9 +54,7 @@ class DatabaseHelper {
               CREATE TABLE $tableTaskDetails (
                 $columnTaskDetailsId INTEGER PRIMARY KEY,
                 $columnTaskDetailsText TEXT NOT NULL,
-                $columnCompleted INTEGER NOT NULL,
-                $columnTaskDetailsCompleted TEXT NOT NULL,
-                $columnTaskDetailsId INTEGER PRIMARY KEY,
+                $columnTaskDetailsCompleted INTEGER NOT NULL,
                 $columnTaskId INTEGER NOT NULL,
                 FOREIGN KEY($columnTaskId) REFERENCES $tableTask($columnId)
               )
@@ -67,10 +65,17 @@ class DatabaseHelper {
   Future<int> insertTask(Task task) async {
     Database db = await database;
     int id = await db.insert(tableTask, task.toMap());
-    if(id>1 && task.taskDetails.length!=0){
+    print(id);
+    if(id>0 && task.taskDetails.length!=0){
+      print('in here');
       task.taskDetails.forEach((detail)=>{
-      detail.taskId = id,
-      insertTaskDetail(detail)
+        print(id),
+        print('incoming values of child'),
+      // detail.taskId = id,
+      // print(detail.text),
+      //   print(detail.completed),
+      //   print(detail.taskId),
+      insertTaskDetail(detail, id)
     });
     }
     return id;
@@ -83,7 +88,10 @@ class DatabaseHelper {
         where: '$columnId = ?',
         whereArgs: [id]);
     if (maps.length > 0) {
-      return Task.fromMap(maps.first);
+      List<TaskDetails> taskDetails =  await queryTaskDetails(id);
+      Task task = Task.fromMap(maps.first);
+      task.taskDetails =taskDetails;
+      return task;
     }
     return null;
   }
@@ -111,11 +119,31 @@ class DatabaseHelper {
 }
 
 //TASKDETAILS METHODS
-Future<int> insertTaskDetail(TaskDetails taskdetail) async {
+Future<int> insertTaskDetail(TaskDetails taskdetail, int taskId) async {
     Database db = await database;
-    int id = await db.insert(tableTaskDetails, taskdetail.toMap());
+    print('inside insertTaskDetail');
+    taskdetail.taskId= taskId;
+    print(taskdetail.taskId);
+    // int id = await db.insert(tableTaskDetails, taskdetail.toMap());
+    int id = await db.rawInsert('INSERT INTO $tableTaskDetails($columnTaskDetailsText, $columnTaskDetailsCompleted, $columnTaskId) VALUES(?, ?, ?)', [taskdetail.text, taskdetail.completed,taskId]);
+    print('child tables id');
+    print(id);
     return id;
   }
 
+Future<List<TaskDetails>> queryTaskDetails(int id) async {
+    Database db = await database;
+    List<Map> results = await db.query(tableTask,
+    columns: [columnTaskDetailsId, columnTaskDetailsText, columnTaskDetailsCompleted, columnTaskId],
+        where: '$columnTaskId = ?',
+        whereArgs: [id]);
+    List<TaskDetails> taskdetails = new List();
+    print(results);
+    results.forEach((result) {
+      TaskDetails taskDetails = TaskDetails.fromMap(result);
+      taskdetails.add(taskDetails);
+    });
+    return taskdetails;
+  }
 
 }
