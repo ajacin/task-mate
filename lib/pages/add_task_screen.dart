@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:providerarray/models/taskdetails.dart';
 
 import 'package:providerarray/providers/todos_model.dart';
 import 'package:providerarray/models/task.dart';
@@ -35,10 +36,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           timeofday.hour, timeofday.minute, 0);
       int calculatedTime = datetime.millisecondsSinceEpoch;
       final _timeOfTask = _timedTask == 1 ? calculatedTime : 0;
-      final Task todo =
-          Task(title: textVal, completed: completed, date: _timeOfTask, type:'text');
+      final List<TaskDetails> _taskdetail = [];
+      _taskdetail.add(TaskDetails(text:'taskdetailstexthuha',completed: 0));//explore addAll method
+      final Task task =
+          Task(title: textVal, completed: completed, date: _timeOfTask, type:'text', taskDetails: _taskdetail);
       print('timeoftask $_timeOfTask');
-      Provider.of<TodosModel>(context, listen: false).addTodo(todo);
+      Provider.of<TodosModel>(context, listen: false).addTodo(task);
       Navigator.pop(context);
     }
   }

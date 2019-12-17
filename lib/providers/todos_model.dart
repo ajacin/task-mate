@@ -57,7 +57,7 @@ class TodosModel extends ChangeNotifier{
 
   _save(task) async {
         DatabaseHelper helper = DatabaseHelper.instance;
-        int id = await helper.insert(task);
+        int id = await helper.insertTask(task);
         showToast("Task Created");
         print('inserted row: $id');
       }

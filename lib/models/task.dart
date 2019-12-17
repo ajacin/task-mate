@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:path/path.dart';
+import 'package:providerarray/models/taskdetails.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -16,8 +17,9 @@ class Task {
   int completed;
   int date;
   String type;
+  List<TaskDetails> taskDetails;
 
-  Task({@required this.title, this.completed = 0, this.date, this.type='text'});
+  Task({@required this.title, this.completed = 0, this.date, this.type='text', this.taskDetails});
 
   void toggleCompleted() {
     completed = 1-completed;
