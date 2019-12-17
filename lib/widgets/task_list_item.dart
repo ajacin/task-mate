@@ -48,14 +48,14 @@ Future<ConfirmAction> _asyncConfirmDialog(BuildContext context) async {
   Widget build(BuildContext context) {
     return Card(
       elevation: 10.0,
+      color: timeNow>task.date && task.date!=0?(task.completed==0?Colors.red[50]:Colors.green[50]):(task.completed==0?Colors.white:Colors.green[50]),
       child: ListTile(
       leading: Switch(
         value: task.completed==0?false:true,
         onChanged: (bool checked) =>
             {Provider.of<TodosModel>(context, listen: false).toggleTodo(task)},
       ),
-      title: Text(task.title,
-      style: TextStyle(color: timeNow>task.date && task.date!=0?Colors.red:Colors.black)),
+      title: Text(task.title),
       subtitle: Text(
         task.date==0?'No Date':DateTime.fromMillisecondsSinceEpoch(
                                 task.date).toString().substring(0,16),

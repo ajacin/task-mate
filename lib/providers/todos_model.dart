@@ -100,8 +100,8 @@ class TodosModel extends ChangeNotifier{
         //int rowId = 1;
         int updateStatus =await helper.updateNote(task);
         if(updateStatus==1){
-          print('Toggled');
           showToast('Status of the task updated');
+          notifyListeners();
         }
         
       }
