@@ -8,14 +8,16 @@ final String columnId = '_id';
 final String columntitle = 'title';
 final String columnCompleted = 'completed';
 final String columnDate = 'date';
+final String columnType = 'type';
 
 class Task {
   int id;
   String title;
   int completed;
   int date;
+  String type;
 
-  Task({@required this.title, this.completed = 0, this.date});
+  Task({@required this.title, this.completed = 0, this.date, this.type='text'});
 
   void toggleCompleted() {
     completed = 1-completed;
@@ -26,10 +28,11 @@ class Task {
     title = map[columntitle];
     completed = map[columnCompleted];
     date = map[columnDate];
+    type = map[columnType];
   }
 
   Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{columntitle: title, columnCompleted: completed,columnDate: date};
+    var map = <String, dynamic>{columntitle: title, columnCompleted: completed,columnDate: date, columnType:type};
     if (id != null) {
       map[columnId] = id;
     }

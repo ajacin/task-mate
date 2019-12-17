@@ -11,7 +11,7 @@ void showToast(String message) {
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 1,
-          // backgroundColor: Theme.of(co),
+          backgroundColor: Colors.blueGrey,
           textColor: Colors.white
       );
     }

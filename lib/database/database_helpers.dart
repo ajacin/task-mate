@@ -9,6 +9,7 @@ final String columnId = '_id';
 final String columntitle = 'title';
 final String columnCompleted = 'completed';
 final String columnDate = 'date';
+final String columnType = 'type';
 
 class DatabaseHelper {
   static final _databaseName = 'TasksDatabase.db';
@@ -39,6 +40,7 @@ class DatabaseHelper {
                 $columntitle TEXT NOT NULL,
                 $columnCompleted INTEGER NOT NULL,
                 $columnDate INTEGER NOT NULL
+                $columnType TEXT NOT NULL
               )
               ''');
   }
@@ -52,7 +54,7 @@ class DatabaseHelper {
   Future<Task> queryTask(int id) async {
     Database db = await database;
     List<Map> maps = await db.query(tableTodo,
-        columns: [columnId, columntitle, columnCompleted, columnDate],
+        columns: [columnId, columntitle, columnCompleted, columnDate, columnType],
         where: '$columnId = ?',
         whereArgs: [id]);
     if (maps.length > 0) {

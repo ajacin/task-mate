@@ -36,7 +36,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       int calculatedTime = datetime.millisecondsSinceEpoch;
       final _timeOfTask = _timedTask == 1 ? calculatedTime : 0;
       final Task todo =
-          Task(title: textVal, completed: completed, date: _timeOfTask);
+          Task(title: textVal, completed: completed, date: _timeOfTask, type:'text');
       print('timeoftask $_timeOfTask');
       Provider.of<TodosModel>(context, listen: false).addTodo(todo);
       Navigator.pop(context);
