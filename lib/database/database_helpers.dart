@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:path/path.dart';
+import 'package:providerarray/models/task.dart' as prefix0;
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:providerarray/models/task.dart';
@@ -82,15 +83,22 @@ class DatabaseHelper {
   }
 
   Future<Task> queryTask(int id) async {
+    print('in queryTask');
     Database db = await database;
+    print(prefix0.columnId);
     List<Map> maps = await db.query(tableTask,
         columns: [columnId, columntitle, columnCompleted, columnDate, columnType],
         where: '$columnId = ?',
         whereArgs: [id]);
+        print('after task query');
+        print(maps.length);
     if (maps.length > 0) {
+      print('in query after results');
       List<TaskDetails> taskDetails =  await queryTaskDetails(id);
+      print(taskDetails);
       Task task = Task.fromMap(maps.first);
       task.taskDetails =taskDetails;
+      print('returning');
       return task;
     }
     return null;
@@ -132,8 +140,9 @@ Future<int> insertTaskDetail(TaskDetails taskdetail, int taskId) async {
   }
 
 Future<List<TaskDetails>> queryTaskDetails(int id) async {
+  print('in query task details');
     Database db = await database;
-    List<Map> results = await db.query(tableTask,
+    List<Map> results = await db.query(tableTaskDetails,
     columns: [columnTaskDetailsId, columnTaskDetailsText, columnTaskDetailsCompleted, columnTaskId],
         where: '$columnTaskId = ?',
         whereArgs: [id]);

@@ -62,15 +62,6 @@ class TodosModel extends ChangeNotifier{
         print('inserted row: $id');
       }
 
-  _read(int rowId) async {
-        DatabaseHelper helper = DatabaseHelper.instance;
-        //int rowId = 1;
-        Task task = await helper.queryTask(rowId);
-        if (task == null) {
-        } else {
-          return task;
-        }
-      }
     _readAll() async {
         DatabaseHelper helper = DatabaseHelper.instance;
         //int rowId = 1;
