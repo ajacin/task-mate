@@ -77,7 +77,7 @@ Future<ConfirmAction> _asyncConfirmDialog(BuildContext context) async {
         Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ViewTaskScreen(),
+                  builder: (context) => ViewTaskScreen(id: task.id),
                 ),
               );
       },
