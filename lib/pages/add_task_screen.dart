@@ -18,6 +18,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   int _timedTask = 0;
   String _date = "Today";
   String _time = "No Time";
+  bool _validateTitle = false;
   DateTime datetime = DateTime.now();
   TimeOfDay timeofday =
       TimeOfDay(hour: 23, minute: 59);
@@ -44,6 +45,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       Provider.of<TodosModel>(context, listen: false).addTodo(task);
       Navigator.pop(context);
     }
+    else{
+      setState(() {
+                  _validateTitle=true;
+                });
+    }
   }
 
   @override
@@ -67,7 +73,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         focusedBorder: InputBorder.none,
-                        hintText: "Type your task"),
+                        errorText: _validateTitle ? 'Enter a title' : null,
+                        hintText: "Task title"),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
