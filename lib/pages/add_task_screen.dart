@@ -46,6 +46,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       Navigator.pop(context);
     }
     else{
+      
       setState(() {
                   _validateTitle=true;
                 });

@@ -66,75 +66,90 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
     } else {
       return Scaffold(
         body: SafeArea(
+            top: false,
             child: SingleChildScrollView(
                 child: Column(
-          children: [
-            _buildHeader('Fill timesheet'),
-            Container(
-              margin: EdgeInsets.all(14),
-              child: Card(
-                elevation: 10,
-                child: Text(taskState.title),
-              ),
-            ),
-            Container(
-                margin: EdgeInsets.all(16),
-                child: Card(
-                    color: timeNow > taskState.date && taskState.date != 0
-                        ? (taskState.completed == 0
-                            ? Colors.red[20]
-                            : Colors.green[20])
-                        : (taskState.completed == 0
-                            ? Colors.white
-                            : Colors.green[20]),
-                    elevation: 8,
-                    child: Column(
-                      children: <Widget>[
-                        ListTile(
-                            leading: taskState.completed == 0
-                                ? Icon(Icons.close)
-                                : Icon(Icons.done),
-                            title: taskState.completed == 0
-                                ? Text('This task is not completed')
-                                : Text('This task is completed')),
-                        ListTile(
-                          leading: Icon(Icons.date_range),
-                          title: Text(
-                            taskState.date == 0
-                                ? 'This task has no date'
-                                : DateTime.fromMillisecondsSinceEpoch(
-                                        taskState.date)
-                                    .toString()
-                                    .substring(0, 10),
-                          ),
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.timer),
-                          title: Text(
-                            taskState.date == 0
-                                ? 'This task has no time'
-                                : DateTime.fromMillisecondsSinceEpoch(
-                                        taskState.date)
-                                    .toString()
-                                    .substring(10, 16),
-                          ),
-                        ),
-                      ],
-                    ))),
-            Container(
-              color: Colors.blue,
-              child: FlutterLogo(
-                size: 60.0,
-              ),
-            ),
-            Container(
-              color: Colors.purple,
-              child: FlutterLogo(
-                size: 60.0,
-              ),
-            ),
-          ],
-        ))),
+              children: [
+                _buildHeaderPanel(),
+                Container(
+                  margin: EdgeInsets.all(14),
+                  width: double.infinity,
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    taskState.title,
+                    style: TextStyle(
+                        color: Colors.grey[800],
+                        fontWeight: FontWeight.w600,
+                        fontStyle: FontStyle.italic,
+                        fontFamily: 'Open Sans',
+                        fontSize: 20),
+                  ),
+                ),
+                Container(
+                    margin: EdgeInsets.all(16),
+                    child: Card(
+                        color: timeNow > taskState.date && taskState.date != 0
+                            ? (taskState.completed == 0
+                                ? Colors.red[20]
+                                : Colors.green[20])
+                            : (taskState.completed == 0
+                                ? Colors.white
+                                : Colors.green[20]),
+                        elevation: 5,
+                        child: Column(
+                          children: <Widget>[
+                            ListTile(
+                                leading: taskState.completed == 0
+                                    ? Icon(Icons.close)
+                                    : Icon(Icons.done),
+                                title: taskState.completed == 0
+                                    ? Text('This task is not completed')
+                                    : Text('This task is completed')),
+                            ListTile(
+                              leading: Icon(Icons.date_range),
+                              title: Text(
+                                taskState.date == 0
+                                    ? 'This task has no date'
+                                    : DateTime.fromMillisecondsSinceEpoch(
+                                            taskState.date)
+                                        .toString()
+                                        .substring(0, 10),
+                              ),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.timer),
+                              title: Text(
+                                taskState.date == 0
+                                    ? 'This task has no time'
+                                    : DateTime.fromMillisecondsSinceEpoch(
+                                            taskState.date)
+                                        .toString()
+                                        .substring(10, 16),
+                              ),
+                            ),
+                          ],
+                        ))),
+                if (taskState.type == 'text' &&
+                    taskState.taskDetails.length > 0)...
+                  [
+                    Container(
+                      color: Colors.blue,
+                      child: FlutterLogo(
+                        size: 60.0,
+                      ),
+                    ),
+                  ]
+                else ...
+                  [
+                    Container(
+                      color: Colors.red,
+                      child: FlutterLogo(
+                        size: 60.0,
+                      ),
+                    ),
+              ]
+              ],
+            ))),
         bottomNavigationBar: BottomAppBar(
           elevation: 0,
           child: Container(
@@ -145,7 +160,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                 IconButton(
                   color: Colors.grey.shade700,
                   icon: Icon(
-                    Icons.menu,
+                    Icons.edit,
                     size: 30,
                   ),
                   onPressed: () {},
@@ -154,7 +169,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                 IconButton(
                   color: Colors.grey.shade700,
                   icon: Icon(
-                    FontAwesomeIcons.calendarAlt,
+                    Icons.snooze,
                     size: 30,
                   ),
                   onPressed: () {},
@@ -165,59 +180,52 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: color2,
-          child: Icon(Icons.add),
+        floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: Colors.white,
+          icon: taskState.completed == 0
+              ? Icon(
+                  Icons.done_all,
+                  color: Colors.green[400],
+                )
+              : Icon(
+                  Icons.delete,
+                  color: Colors.red[400],
+                ),
+          label: taskState.completed == 0
+              ? Text(
+                  "Mark Completed",
+                  style: TextStyle(color: color1),
+                )
+              : Text(
+                  "Delete",
+                  style: TextStyle(color: color1),
+                ),
           onPressed: () {},
         ),
       );
     }
   }
 
-  Container _buildHeader(title) {
+  Container _buildHeaderPanel() {
     return Container(
-      height: 150,
-      width: double.infinity,
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            bottom: 0,
-            left: -100,
-            top: -50,
-            child: Container(
-              width: 450,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(colors: [color1, color2]),
-                  boxShadow: [
-                    BoxShadow(
-                        color: color2,
-                        offset: Offset(4.0, 4.0),
-                        blurRadius: 10.0)
-                  ]),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 60, left: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  title,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w400),
-                ),
-                SizedBox(height: 10.0),
-                // Text("You have 2 remaining\ntasks for today!", style: TextStyle(
-                //   color: Colors.white,
-                //   fontSize: 18.0
-                // ),)
-              ],
-            ),
-          )
-        ],
+      height: 80,
+      padding: EdgeInsets.only(top: 20),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          color: color1,
+          borderRadius: BorderRadius.only(bottomRight: Radius.circular(40))),
+      child: ListTile(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          'Task Details',
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+        ),
       ),
     );
   }
