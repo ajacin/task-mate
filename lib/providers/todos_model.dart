@@ -30,8 +30,9 @@ class TodosModel extends ChangeNotifier{
       UnmodifiableListView(_tasks.where((todo) => todo.completed==1));
 
   void addTodo(Task task){
-    _tasks.add(task);
+    // _tasks.add(task);
     _save(task);
+    _tasks.removeRange(0, _tasks.length-1);
     notifyListeners();
   }
 
@@ -42,6 +43,7 @@ class TodosModel extends ChangeNotifier{
   }
 
   void toggleTodo(Task task) {
+    print('1');
     final taskIndex = _tasks.indexOf(task);
     _tasks[taskIndex].toggleCompleted();
     _updateNote(_tasks[taskIndex]);
@@ -60,6 +62,7 @@ class TodosModel extends ChangeNotifier{
         int id = await helper.insertTask(task);
         showToast("Task Created");
         print('inserted row: $id');
+        _readAll();
       }
 
     _readAll() async {

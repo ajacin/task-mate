@@ -18,7 +18,6 @@ class ViewTaskScreen extends StatefulWidget {
 }
 
 class _ViewTaskScreenState extends State<ViewTaskScreen> {
-  static final String path = "lib/src/pages/todo/todo_home1.dart";
   final Color color1 = Color(0XFF2B2D42);
   final Color color2 = Color(0XFF8D99AE);
   final Color color3 = Color(0XFFD1D1D1);
@@ -49,7 +48,6 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
   @override
   Widget build(BuildContext context) {
     final taskState = Provider.of<TaskModel>(context).task;
-    var deviceData = MediaQuery.of(context);
     if (taskState.title == null) {
       return Container(
         child: Center(
@@ -99,32 +97,37 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                         child: Column(
                           children: <Widget>[
                             ListTile(
+                              dense: true,
                                 leading: taskState.completed == 0
-                                    ? Icon(Icons.close)
-                                    : Icon(Icons.done),
+                                    ? Icon(Icons.close,size: 20,)
+                                    : Icon(Icons.done,size: 20,),
                                 title: taskState.completed == 0
-                                    ? Text('This task is not completed')
-                                    : Text('This task is completed')),
+                                    ? Text('This task is not completed',style: TextStyle(fontSize: 12),)
+                                    : Text('This task is completed',style: TextStyle(fontSize: 12),)),
                             ListTile(
-                              leading: Icon(Icons.date_range),
+                              dense: true,
+                              leading: Icon(Icons.date_range,size: 20,),
                               title: Text(
                                 taskState.date == 0
-                                    ? 'This task has no date'
+                                    ? 'No date'
                                     : DateTime.fromMillisecondsSinceEpoch(
                                             taskState.date)
                                         .toString()
                                         .substring(0, 10),
+                                        style: TextStyle(fontSize: 12),
                               ),
                             ),
                             ListTile(
-                              leading: Icon(Icons.timer),
+                              dense: true,
+                              leading: Icon(Icons.timer,size: 20,),
                               title: Text(
                                 taskState.date == 0
-                                    ? 'This task has no time'
+                                    ? 'No time'
                                     : DateTime.fromMillisecondsSinceEpoch(
                                             taskState.date)
                                         .toString()
                                         .substring(10, 16),
+                                        style: TextStyle(fontSize: 12),
                               ),
                             ),
                           ],
@@ -133,10 +136,9 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                     taskState.taskDetails.length > 0)...
                   [
                     Container(
-                      color: Colors.blue,
-                      child: FlutterLogo(
-                        size: 60.0,
-                      ),
+                      width: double.infinity,
+                      padding: EdgeInsets.all(20),
+                      child: Text(taskState.taskDetails[0].text),
                     ),
                   ]
                 else ...
@@ -200,7 +202,10 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                   "Delete",
                   style: TextStyle(color: color1),
                 ),
-          onPressed: () {},
+          onPressed: () {
+            print(taskState.completed),
+            taskState.completed ==0 ? Provider.of<TodosModel>(context).toggleTodo(taskState):Provider.of<TodosModel>(context).deleteTodo(taskState);
+          },
         ),
       );
     }

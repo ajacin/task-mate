@@ -14,7 +14,9 @@ class AddTaskScreen extends StatefulWidget {
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
   final taskTitleController = TextEditingController();
+  final taskDetailsController = TextEditingController();
   int completedStatus = 0;
+  String typeOfTask ='text';
   int _timedTask = 0;
   String _date = "Today";
   String _time = "No Time";
@@ -38,7 +40,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       int calculatedTime = datetime.millisecondsSinceEpoch;
       final _timeOfTask = _timedTask == 1 ? calculatedTime : 0;
       final List<TaskDetails> _taskdetail = [];
-      _taskdetail.add(TaskDetails(text:'taskdetailstexthuha',completed: 0));//explore addAll method
+      _taskdetail.add(TaskDetails(text:'Frank Borman (born 1928) is a retired United States Air Force colonel, aeronautical engineer, test pilot, and businessman, and the oldest living former NASA astronaut. In 1968, he was the commander of Apollo 8, the first crewed mission to fly around the Moon, for which he was awarded the Congressional Space Medal of Honor. A graduate of West Point, he served as an air force fighter pilot and flight instructor, and an assistant professor at West Point. He was one of five students in the first class at the Aerospace Research Pilot School, and was selected with the second group of NASA astronauts in 1962. He set a fourteen-day spaceflight endurance record as commander of Gemini 7, and served on the review board for the Apollo 1 fire. He became a senior vice president at Eastern Air Lines in 1970, and later its chief executive officer and chairman of the board, leading the company through its four most profitable years before resigning in 1986. He currently owns a ranch in Montana.',completed: 0));//explore addAll method
       final Task task =
           Task(title: textVal, completed: completed, date: _timeOfTask, type:'text', taskDetails: _taskdetail);
       print('timeoftask $_timeOfTask');
@@ -71,11 +73,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     controller: taskTitleController,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
+                    minLines: 2,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         focusedBorder: InputBorder.none,
                         errorText: _validateTitle ? 'Enter a title' : null,
-                        hintText: "Task title"),
+                        hintText: "Enter a title/or short task"),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -237,6 +240,20 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       ],
                     ),
                   ),
+                  ),
+                  Container(
+                    width:double.infinity,
+                    child: TextField(
+                    controller: taskDetailsController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    minLines: 8,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder: InputBorder.none,
+                        hintText: "Enter more details(Optional)"),
+                  ),
+                    
                   ),
                   //time picker
                   Padding(
