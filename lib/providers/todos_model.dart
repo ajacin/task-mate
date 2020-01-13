@@ -31,8 +31,9 @@ class TodosModel extends ChangeNotifier{
 
   void addTodo(Task task){
     // _tasks.add(task);
+    _tasks.clear();
     _save(task);
-    _tasks.removeRange(0, _tasks.length-1);
+    // _tasks.removeRange(0, _tasks.length-1);
     notifyListeners();
   }
 

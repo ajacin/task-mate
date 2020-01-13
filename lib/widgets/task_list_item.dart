@@ -67,7 +67,7 @@ class TaskListItem extends StatelessWidget {
         ),
         subtitle: Text(
           task.date == 0
-              ? 'No Date'
+              ? 'No Date:'+task.id.toString()
               : DateTime.fromMillisecondsSinceEpoch(task.date)
                   .toString()
                   .substring(0, 16),

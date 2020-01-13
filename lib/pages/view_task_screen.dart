@@ -203,7 +203,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                   style: TextStyle(color: color1),
                 ),
           onPressed: () {
-            print(taskState.completed),
+            print(taskState.completed);
             taskState.completed ==0 ? Provider.of<TodosModel>(context).toggleTodo(taskState):Provider.of<TodosModel>(context).deleteTodo(taskState);
           },
         ),
