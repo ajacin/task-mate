@@ -123,6 +123,8 @@ class DatabaseHelper {
 
   Future<int> updateNote(Task task) async {
     Database db = await database;
+    print('In Updatenote');
+    print(task);
   return await db.update(tableTask, task.toMap(), where: "$columnId = ?", whereArgs: [task.id]);
 }
 

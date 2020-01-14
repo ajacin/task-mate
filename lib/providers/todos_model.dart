@@ -31,7 +31,7 @@ class TodosModel extends ChangeNotifier{
 
   void addTodo(Task task){
     // _tasks.add(task);
-    _tasks.clear();
+    // _tasks.clear();
     _save(task);
     // _tasks.removeRange(0, _tasks.length-1);
     notifyListeners();
@@ -44,7 +44,7 @@ class TodosModel extends ChangeNotifier{
   }
 
   void toggleTodo(Task task) {
-    print('1');
+    print('In toggle todo');
     final taskIndex = _tasks.indexOf(task);
     _tasks[taskIndex].toggleCompleted();
     _updateNote(_tasks[taskIndex]);
@@ -67,6 +67,7 @@ class TodosModel extends ChangeNotifier{
       }
 
     _readAll() async {
+        _tasks.clear();
         DatabaseHelper helper = DatabaseHelper.instance;
         //int rowId = 1;
         List list =await helper.queryAllTasks();
@@ -86,11 +87,14 @@ class TodosModel extends ChangeNotifier{
         int deleteStatus =await helper.deleteNote(id);
         if(deleteStatus==1){
           print('deleted');
+          _readAll();
+          notifyListeners();
         }
         
       }
 
       _updateNote(task) async {
+        print('In Update notes');
         DatabaseHelper helper = DatabaseHelper.instance;
         //int rowId = 1;
         int updateStatus =await helper.updateNote(task);
