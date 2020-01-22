@@ -16,14 +16,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   final taskTitleController = TextEditingController();
   final taskDetailsController = TextEditingController();
   int completedStatus = 0;
-  String typeOfTask ='text';
+  String typeOfTask = 'text';
   int _timedTask = 0;
   String _date = "Today";
   String _time = "No Time";
   bool _validateTitle = false;
   DateTime datetime = DateTime.now();
-  TimeOfDay timeofday =
-      TimeOfDay(hour: 23, minute: 59);
+  TimeOfDay timeofday = TimeOfDay(hour: 23, minute: 59);
 
   @override
   void dispose() {
@@ -33,6 +32,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   void onAdd() {
     final String textVal = taskTitleController.text;
+    final String textDetails = taskDetailsController.text;
     final int completed = completedStatus;
     if (textVal.isNotEmpty) {
       datetime = DateTime(datetime.year, datetime.month, datetime.day,
@@ -40,18 +40,24 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       int calculatedTime = datetime.millisecondsSinceEpoch;
       final _timeOfTask = _timedTask == 1 ? calculatedTime : 0;
       final List<TaskDetails> _taskdetail = [];
-      _taskdetail.add(TaskDetails(text:'Frank thentana.',completed: 0));//explore addAll method
-      final Task task =
-          Task(title: textVal, completed: completed, date: _timeOfTask, type:'text', taskDetails: _taskdetail);
+      if (textDetails.isNotEmpty) {
+        _taskdetail.add(TaskDetails(
+            text: textDetails, completed: 0)); //explore addAll method
+            print(textDetails);
+      }
+      final Task task = Task(
+          title: textVal,
+          completed: completed,
+          date: _timeOfTask,
+          type: 'text',
+          taskDetails: _taskdetail);
       print('timeoftask $_timeOfTask');
       Provider.of<TodosModel>(context, listen: false).addTodo(task);
       Navigator.pop(context);
-    }
-    else{
-      
+    } else {
       setState(() {
-                  _validateTitle=true;
-                });
+        _validateTitle = true;
+      });
     }
   }
 
@@ -106,154 +112,153 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   ),
 
                   Visibility(
-                    visible: _timedTask==1?true:false,
+                    visible: _timedTask == 1 ? true : false,
                     child: Padding(
-                    padding: EdgeInsets.only(top: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          alignment: Alignment.center,
-                          height: 50.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.date_range,
-                                          size: 25.0,
-                                        ),
-                                        Text(
-                                          " $_date",
-                                          style: TextStyle(
-                                            color:
-                                                Theme.of(context).accentColor,
+                      padding: EdgeInsets.only(top: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.center,
+                            height: 50.0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Row(
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.date_range,
+                                            size: 25.0,
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
+                                          Text(
+                                            " $_date",
+                                            style: TextStyle(
+                                              color:
+                                                  Theme.of(context).accentColor,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        FlatButton(
-                          shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(18.0),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Icon(Icons.update),
-                              Text("Set a date")
-                            ],
-                          ),
-                          onPressed: () {
-                            DatePicker.showDatePicker(context,
-                                theme: DatePickerTheme(
-                                  containerHeight: 210.0,
-                                ),
-                                showTitleActions: true,
-                                minTime: DateTime.now(),
-                                maxTime: DateTime(2099, 12, 31),
-                                onConfirm: (date) {
-                              print('confirm $date');
-                              datetime = date;
-                              _date =
-                                  '${date.day} / ${date.month} / ${date.year}';
-                              setState(() {});
+                          FlatButton(
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(18.0),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(Icons.update),
+                                Text("Set a date")
+                              ],
+                            ),
+                            onPressed: () {
+                              DatePicker.showDatePicker(context,
+                                  theme: DatePickerTheme(
+                                    containerHeight: 210.0,
+                                  ),
+                                  showTitleActions: true,
+                                  minTime: DateTime.now(),
+                                  maxTime: DateTime(2099, 12, 31),
+                                  onConfirm: (date) {
+                                print('confirm $date');
+                                datetime = date;
+                                _date =
+                                    '${date.day} / ${date.month} / ${date.year}';
+                                setState(() {});
+                              },
+                                  currentTime: DateTime.now(),
+                                  locale: LocaleType.en);
                             },
-                                currentTime: DateTime.now(),
-                                locale: LocaleType.en);
-                          },
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
                   ),
                   Visibility(
-                    visible: _timedTask==1?true:false,
+                    visible: _timedTask == 1 ? true : false,
                     child: Padding(
-                    padding: EdgeInsets.only(top: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          alignment: Alignment.center,
-                          height: 50.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.access_time,
-                                          size: 25.0,
-                                        ),
-                                        Text(
-                                          " $_time",
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
+                      padding: EdgeInsets.only(top: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.center,
+                            height: 50.0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Row(
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.access_time,
+                                            size: 25.0,
+                                          ),
+                                          Text(
+                                            " $_time",
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        FlatButton(
-                          shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(18.0),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Icon(Icons.update),
-                              Text("Set a time")
-                            ],
-                          ),
-                          onPressed: () {
-                            DatePicker.showTimePicker(context,
-                                theme: DatePickerTheme(
-                                  containerHeight: 210.0,
-                                ),
-                                showTitleActions: true, onConfirm: (time) {
-                              print('confirm $time');
-                              timeofday = TimeOfDay(
-                                  hour: time.hour, minute: time.minute);
-                              _time = DateFormat("HH:mm").format(time);
+                          FlatButton(
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(18.0),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(Icons.update),
+                                Text("Set a time")
+                              ],
+                            ),
+                            onPressed: () {
+                              DatePicker.showTimePicker(context,
+                                  theme: DatePickerTheme(
+                                    containerHeight: 210.0,
+                                  ),
+                                  showTitleActions: true, onConfirm: (time) {
+                                print('confirm $time');
+                                timeofday = TimeOfDay(
+                                    hour: time.hour, minute: time.minute);
+                                _time = DateFormat("HH:mm").format(time);
+                                setState(() {});
+                              },
+                                  currentTime: DateTime.now(),
+                                  locale: LocaleType.en);
                               setState(() {});
                             },
-                                currentTime: DateTime.now(),
-                                locale: LocaleType.en);
-                            setState(() {});
-                          },
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  ),
                   Container(
-                    width:double.infinity,
+                    width: double.infinity,
                     child: TextField(
-                    controller: taskDetailsController,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    minLines: 8,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        focusedBorder: InputBorder.none,
-                        hintText: "Enter more details(Optional)"),
-                  ),
-                    
+                      controller: taskDetailsController,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      minLines: 8,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          focusedBorder: InputBorder.none,
+                          hintText: "Enter more details(Optional)"),
+                    ),
                   ),
                   //time picker
                   Padding(
