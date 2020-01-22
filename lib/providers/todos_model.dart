@@ -44,6 +44,9 @@ class TodosModel extends ChangeNotifier{
   }
 
   void toggleTodo(Task task) {
+    
+    print(task.toMap());
+    print(_tasks.indexOf(task).toString());
     print('In toggle todo');
     final taskIndex = _tasks.indexOf(task);
     _tasks[taskIndex].toggleCompleted();

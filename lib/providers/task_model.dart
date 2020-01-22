@@ -49,4 +49,24 @@ class TaskModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void markCompleted(Task task) {
+    
+    print(task.toMap());
+    task.completed =1;
+    _updateToCompleted(task);
+
+  }
+
+  _updateToCompleted(task) async {
+        print('In Update notes of task model');
+        DatabaseHelper helper = DatabaseHelper.instance;
+        //int rowId = 1;
+        int updateStatus =await helper.updateNote(task);
+        if(updateStatus==1){
+          showToast('Item marked complete');
+          notifyListeners();
+        }
+        
+      }
 }

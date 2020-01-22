@@ -204,8 +204,9 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                 ),
           onPressed: () {
             print(taskState.completed);
-            taskState.completed ==0 ? Provider.of<TodosModel>(context).toggleTodo(taskState):Provider.of<TodosModel>(context).deleteTodo(taskState);
-            taskState.completed==1? Navigator.pop(context):print('nothing');
+            bool navigateBack = taskState.completed ==1?true:false;
+            taskState.completed ==0 ? Provider.of<TaskModel>(context).markCompleted(taskState):Provider.of<TodosModel>(context).deleteTodo(taskState);
+            navigateBack? Navigator.pop(context):print('nothing');
           },
         ),
       );
