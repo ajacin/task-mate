@@ -118,7 +118,11 @@ class DatabaseHelper {
 
   Future<int> deleteNote(int id) async {
     Database db = await database;
-    return await db.delete(tableTask, where: '$columnId = ?', whereArgs: [id]);
+    int deleteStatus =  await db.delete(tableTask, where: '$columnId = ?', whereArgs: [id]);
+    if(deleteStatus ==1){
+      deleteTakDetails(id);
+    }
+    return deleteStatus;
   }
 
   Future<int> updateNote(Task task) async {
@@ -155,6 +159,11 @@ Future<List<TaskDetails>> queryTaskDetails(int id) async {
       taskdetails.add(taskDetails);
     });
     return taskdetails;
+  }
+
+  Future<int> deleteTakDetails(int id) async {
+    Database db = await database;
+    return await db.delete(tableTaskDetails, where: '$columnId = ?', whereArgs: [id]);
   }
 
 }
