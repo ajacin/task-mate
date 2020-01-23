@@ -56,6 +56,7 @@ class TaskListItem extends StatelessWidget {
       child: ListTile(
         leading: Switch(
           value: task.completed == 0 ? false : true,
+          activeColor: Colors.green,
           onChanged: (bool checked) => {
             Provider.of<TodosModel>(context, listen: false).toggleTodo(task)
           },
